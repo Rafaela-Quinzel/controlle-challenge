@@ -1,0 +1,7 @@
+* {
+    font-family: TeoriaMF Bold, sans-serif;
+}
+
+.main-background-color {
+    background-color: var(--backgorud-color);
+}

@@ -1,0 +1,13 @@
+:root {
+    /*---- BACKGROUDS ----*/
+    --backgorud-color: #F3F4F9;
+
+    /*---- TEXTS ----*/
+    --filter-text-color: #7C889B;
+
+    /*---- LABELS ----*/
+    --label-primary-color: #8595AB;
+
+    /*---- BUTTONS ----*/
+    --button-primary-color: #EDF2F9;
+}
