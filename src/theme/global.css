@@ -1,7 +1,51 @@
+@import "./variables.css";
+
 * {
-    font-family: TeoriaMF Bold, sans-serif;
+    font-family: var(--font-family-primary);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.main-background-color {
-    background-color: var(--backgorud-color);
+html,
+body {
+    height: 100hv;
 }
+
+body {
+    background: var(--main-background-color);
+}
+
+
+/* button {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    width: 47px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;    
+}
+
+
+input {
+    border: none;
+    margin-left: 6px;
+    flex: 1;
+    font-size: 14px;
+    min-height: 27px;    
+} */
+
+.select {
+width: 50%;
+padding: 100px;    
+}
+
+.Select-clear-zone {
+    display: none !important;
+    }

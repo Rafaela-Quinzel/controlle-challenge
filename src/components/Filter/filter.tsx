@@ -1,6 +1,10 @@
 import Downshift from 'downshift';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Filters } from '../../interfaces/filters';
+import '../../theme/global.css';
+import { getFilterResults } from '../../services/filterDB';
+import MultiSelect from './select';
+
 
 
 
@@ -11,8 +15,21 @@ const Filter = () => {
         category: '',
         tags: [],
     });
+    const [data, setData] = useState([] as any[]);
+
+    const types = [
+        { type: 'inputs', value: "Entradas" },
+        { type: "outputs", value: "Saídas" },
+        { type: "inputs_outputs", value: "Entradas, Saídas" }
+    ]
+
+    useEffect(() => {
+        getFilterResults(setData);
+    }, []);
 
     const handleFilterChange = (filterName: keyof Filters, value: string) => {
+        console.log('filterName: ', filterName)
+        console.log('value: ', value)
         setSelectedFilters((prevFilters) => ({
             ...prevFilters,
             [filterName]: value,
@@ -48,70 +65,154 @@ const Filter = () => {
         // Lógica para salvar os filtros
     };
 
+    console.log('<< DATA >> ', data)
+
+    const getSelected = 
+        types.map(item => { 
+console.log('ITEM: ', item)            
+            return item})
+        // types.map((item, index) => {
+
+        // })
+    
+
+
     return (
         <div>
-            <div>
-                <h2>Filtro por Tipo:</h2>
+            {/* <div>
+                <h2>Tipo:</h2>
                 <select
                     value={selectedFilters.type}
                     onChange={(e) => handleFilterChange('type', e.target.value)}
                 >
                     <option value="">Selecione</option>
-                    <option value="opcao1">Opção 1</option>
-                    <option value="opcao2">Opção 2</option>
+                    <option value="inputs">Entradas</option>
+                    <option value="outputs">Saídas</option>
                 </select>
-            </div>
+            </div> */}
 
             <div>
-                <h2>Filtro por Conta bancária/cartão de crédito:</h2>
+                {/* <h2>Filtro por Conta bancária/cartão de crédito:</h2> */}
+                <h2>Tipo:</h2>
+
                 <Downshift<string | null>
-                    onChange={(selectedItem) =>
-                        handleFilterChange('account', selectedItem || '')
-                    }
+                    // onChange={(selectedItem) =>
+                    //     handleFilterChange('type', selectedItem || '')
+                    // }
+
                     itemToString={(item) => (item ? item.toString() : '')}
                 >
-                    {({ getRootProps, getMenuProps, getInputProps }) => (
+                    {({ getInputProps,
+                        getItemProps,
+                        getMenuProps,
+                        getLabelProps,
+                        getToggleButtonProps,
+                        inputValue,
+                        highlightedIndex,
+                        selectedItem,
+                        isOpen,
+                    }) => (
                         <div>
-                            <input {...getInputProps()} />
-                            <ul {...getMenuProps()}>
-                                {/* Renderização das opções do filtro */}
+                            <div>
+                                <label {...getLabelProps()}>Tipo</label>
+                                <MultiSelect items={getSelected}/>
+                                {/* {types.map((item, index) => (
+                                    <MultiSelect key={`${item.type}${index}`}
+                                        {...getInputProps({
+                                            item: item.value,
+                                            index,
+                                        })} />
+                                    // <li
+                                    //     key={`${item.type}${index}`}
+                                    //     {...getItemProps({
+                                    //         item: item.value,
+                                    //         index,
+                                    //     })}
+                                    // >
+                                    //     <span className="text-sm text-gray-700">
+                                    //         {item.value}
+                                    //     </span>
+                                    // </li>
+                                ))
+                                } */}
+                                {/* <MultiSelect key={types} {...getInputProps({
+                                    isOpen,
+                                    selectedItem                                    
+                                })} {...getToggleButtonProps()}/> */}
+
+                            </div>
+                            {/* <div>
+                                <label {...getLabelProps()}>Tipo</label>
+                                <input {...getInputProps({
+                                    isOpen,
+                                    placeholder: 'Find a Star Wars character',
+                                })} />
+                                <button
+                                    aria-label={'Down Arrow'}
+                                    className="px-2"
+                                    {...getToggleButtonProps()}
+                                >
+                                    {isOpen ? <>&#8593;</> : <>&#8595;</>}
+                                </button>
+                            </div> */}
+                            <ul
+                                className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${!(isOpen && types && types.length) && 'hidden'
+                                    }`}
+                                {...getMenuProps()}
+                            >
+                                {isOpen
+                                    ? types.map((item, index) => (
+                                        <li
+                                            key={`${item.type}${index}`}
+                                            {...getItemProps({
+                                                item: item.value,
+                                                index,
+                                            })}
+                                        >
+                                            <span className="text-sm text-gray-700">
+                                                {item.value}
+                                            </span>
+                                        </li>
+                                    ))
+                                    : null}
                             </ul>
                         </div>
+                        // <div>
+                        //     <div>
+                        //         <label {...getLabelProps()}>Tipo</label>
+                        //         <input {...getInputProps()} />
+                        //         <button
+                        //             aria-label={'Down Arrow'}
+                        //             className="px-2"
+                        //             {...getToggleButtonProps()}
+                        //         >
+                        //             {isOpen ? <>&#8593;</> : <>&#8595;</>}
+                        //         </button>
+                        //     </div>
+                        //     <ul
+                        //         className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${!(isOpen && types && types.length) && 'hidden'
+                        //             }`}
+                        //         {...getMenuProps()}
+                        //     >
+                        //         {isOpen
+                        //             ? types.map((item, index) => (
+                        //                 <li
+                        //                     key={`${item.type}${index}`}
+                        //                     {...getItemProps({
+                        //                         item: item.value,
+                        //                         index,
+                        //                     })}
+                        //                 >
+                        //                     <span className="text-sm text-gray-700">
+                        //                         {item.value}
+                        //                     </span>
+                        //                 </li>
+                        //             ))
+                        //             : null}
+                        //     </ul>
+                        // </div>
                     )}
                 </Downshift>
-            </div>
-
-            <div>
-                <h2>Filtro por Categoria:</h2>
-                <input
-                    type="text"
-                    value={selectedFilters.category}
-                    onChange={(e) => handleFilterChange('category', e.target.value)}
-                />
-            </div>
-
-            <div>
-                <h2>Filtro por Tags:</h2>
-                <div>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={selectedFilters.tags.includes('tag1')}
-                            onChange={(e) => handleTagChange('tag1', e.target.checked)}
-                        />
-                        Tag 1
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={selectedFilters.tags.includes('tag2')}
-                            onChange={(e) => handleTagChange('tag2', e.target.checked)}
-                        />
-                        Tag 2
-                    </label>
-                </div>
             </div>
 
             <div>

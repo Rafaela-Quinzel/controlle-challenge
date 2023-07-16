@@ -1,6 +1,10 @@
 :root {
+    /*---- FONTS ----*/
+    --font-family-primary: 'TeoriaMF Bold', sans-serif;
+
     /*---- BACKGROUDS ----*/
-    --backgorud-color: #F3F4F9;
+    --main-background-color: #F3F4F9;
+
 
     /*---- TEXTS ----*/
     --filter-text-color: #7C889B;
