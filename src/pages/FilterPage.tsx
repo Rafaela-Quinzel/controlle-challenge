@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import { useForm } from 'react-hook-form';
 import '../theme/global.css';
 import './FilterPageStyle.css';
@@ -6,30 +6,53 @@ import MenuSelect from '../components/Menu/MenuComponent';
 import FilterMultipleSelections from '../components/Filter/FilterComponent';
 import Buttons from '../components/Buttons/ButtonsComponent';
 
+interface State {
+    selectedOptions: OptionType[];
+}
+
+interface Action {
+    type: string;
+    payload?: any;
+}
+
+interface OptionType {
+    label: string;
+    value: string;
+}
+
+const initialState: State = {
+    selectedOptions: [],
+};
+
+const reducer = (state: State, action: Action): State => {
+    switch (action.type) {
+        case 'SET_SELECTED_OPTIONS':
+            return {
+                ...state,
+                selectedOptions: action.payload,
+            };
+        default:
+            return state;
+    }
+};
 
 const FilterPage: React.FC = () => {
     const { register, handleSubmit } = useForm();
-    const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-    interface OptionType {
-        label: string;
-        value: string;
-    }
-
-    const options = [
-        { value: 'inputs', label: "Entradas" },
-        { value: "outputs", label: "Saídas" },
+    const options: OptionType[] = [
+        { value: 'inputs', label: 'Entradas' },
+        { value: 'outputs', label: 'Saídas' },
     ];
 
-
     const handleMultiSelectChange = (selectedOptions: OptionType[]) => {
-        console.log(selectedOptions)
-        setSelectedOptions(selectedOptions);
+        dispatch({ type: 'SET_SELECTED_OPTIONS', payload: selectedOptions });
+        handleFormSubmit(selectedOptions);
     };
 
     const handleFormSubmit = (data: any) => {
         console.log(data); // Dados do formulário
-        console.log(selectedOptions); // Filtros selecionados
+        console.log(state.selectedOptions); // Filtros selecionados
     };
 
     return (
@@ -37,20 +60,21 @@ const FilterPage: React.FC = () => {
             <div className="filter-container">
                 <FilterMultipleSelections
                     options={options}
-                    onChange={handleMultiSelectChange} />
+                    onChange={handleMultiSelectChange}
+                />
                 <MenuSelect />
             </div>
             <div className="btns-container">
                 <Buttons />
             </div>
-            {selectedOptions.length > 0 ?
+            {state.selectedOptions.length > 0 ? (
                 <div>
-                    <p>Opções selecionadas: {JSON.stringify(selectedOptions)}</p>
+                    <p>Opções selecionadas: {JSON.stringify(state.selectedOptions)}</p>
                     <div className="select"></div>
-
                 </div>
-                : <></>
-            }
+            ) : (
+                <></>
+            )}
         </form>
     );
 };
