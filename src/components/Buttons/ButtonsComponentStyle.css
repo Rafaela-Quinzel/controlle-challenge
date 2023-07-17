@@ -1,0 +1,15 @@
+@import "../../theme/variables.css";
+
+
+.btn-container {
+    display: flex;
+    justify-content: space-around;
+    width: 32%;
+}
+
+button {
+    border: none;
+    background: transparent;
+    color: var(--btn-color);
+    font-weight: bold;
+}

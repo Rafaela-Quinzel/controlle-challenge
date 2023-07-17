@@ -1,0 +1,28 @@
+@import "../../theme/variables.css";
+
+/* 
+.menu-container {} */
+
+.btn-menu {
+    width: 45px;
+    height: 44px;
+    min-width: 45px;
+    background-color: var(--primary-color);
+    color: var(--menu-text-color);
+    border: none;
+    border-radius: 4px;
+    margin: 24px 0 0 12px;
+    font-size: 25px;
+    padding: 0;
+}
+
+.text {
+    font-size: 0.875rem;
+    width: auto;
+    padding: 4px 3%;
+    box-sizing: border-box;
+}
+
+.menu-options-text {
+    color: var(--menu-text-color);
+}

@@ -1,20 +1,15 @@
-import React from 'react';
 import './theme/global.css';
-import Filter from './components/Filter/filter';
-import MySelect from './components/Filter/mySelect'
-import  MultiSelect  from './components/Filter/select';
-
+import FilterPage from './pages/FilterPage'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
 
   return (
-    <div>
-      <Filter />
-      <div className="select">
-        <MySelect />
-      </div>
-      {/* <MultiSelect /> */}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<FilterPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
