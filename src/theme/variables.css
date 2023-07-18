@@ -1,5 +1,7 @@
 :root {
     --primary-color: #FFFFFF;
+    --secondary-color: #414447;
+    --tertiary-color: #rgb(83, 86, 90)
 
     /*---- FONTS ----*/
     --font-family-primary: 'Poppins', sans-serif;
@@ -18,5 +20,5 @@
 
     /*---- BUTTONS ----*/
     --btn-primary-color: #EDF2F9;
-    --btn-color:  #505050;
+    --btn-color: #505050;
 }

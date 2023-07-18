@@ -1,47 +1,40 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+// React
 import React, { useState } from 'react';
 import Select, { ActionMeta, MultiValue } from 'react-select';
-import Downshift, { useMultipleSelection } from 'downshift';
 import makeAnimated from 'react-select/animated';
+// Downshift
+import { useMultipleSelection } from 'downshift';
+// Interfaces
+import { OptionType, MultiSelectProps } from '../../interfaces/filters';
 
-import './FilterComponentStyle.css';
 
-interface OptionType {
-    label: string;
-    value: string;
-}
-
-interface MultiSelectProps {
-    options: OptionType[];
-    onChange: (selectedOptions: OptionType[]) => void;
-}
-
-const FilterMultipleSelections: React.FC<MultiSelectProps> = ({ options, onChange }) => {
-    const [inputValue, setInputValue] = useState('');
+const FilterMultipleSelections: React.FC<MultiSelectProps> = ({ options, onChange, removeOption }) => {
+    const [inputValue,] = useState('');
+    const animatedComponents = makeAnimated();
     const {
         getSelectedItemProps,
         getDropdownProps,
-        addSelectedItem,
+        //addSelectedItem,
         removeSelectedItem,
         selectedItems,
+        //setSelectedItems
     } = useMultipleSelection<OptionType>({});
 
-    const animatedComponents = makeAnimated();
-
-    // MOSTRA NA TELA O RESULTADO ESCOLHIDO DO SELECT  
+ 
     const handleSelectChange = (newValue: MultiValue<OptionType>, actionMeta: ActionMeta<OptionType>) => {
         const selectedOptions = Array.from(newValue);
         onChange(selectedOptions);
-    };
 
-    const handleRemoveOption = (option: OptionType) => {
-        removeSelectedItem(option);
+        if (actionMeta.action === 'remove-value') {
+            selectedItems.forEach((item) => {
+                removeSelectedItem(item);
+            });
+        }
     };
 
     const selectedOptions = selectedItems.map((selectedItem, index) => (
         <div key={index} {...getSelectedItemProps({ selectedItem })}>
             {selectedItem.label}
-            {/* <button onClick={() => handleRemoveOption(selectedItem)}>Remove</button> */}
         </div>
     ));
 
